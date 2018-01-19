@@ -5,6 +5,7 @@ import com.test.bysiness.Question;
 import com.test.bysiness.Topic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -14,14 +15,18 @@ public class QuestionWithOptions<T> implements Question<T> {
     private String question;
     private List<String> options;
     private Topic questionTopic;
-    Answer<T> correctAnswer;
-    Answer<T> yourAnswer;
+    private Answer<T> correctAnswer;
+    private Answer<T> yourAnswer;
+    private int questionScore;
+    private boolean isAnswered;
 
-    QuestionWithOptions(String question, List<String> options, Topic questionTopic, Answer<T> correctAnswer) {
+    QuestionWithOptions(String question, List<String> options, Topic questionTopic, Answer<T> correctAnswer, Integer questionScore) {
         this.question = question;
         this.options = options;
         this.questionTopic = questionTopic;
         this.correctAnswer = correctAnswer;
+        this.questionScore = questionScore;
+        this.isAnswered = false;
     }
 
     public Question setId(int id) {
@@ -29,9 +34,21 @@ public class QuestionWithOptions<T> implements Question<T> {
         return this;
     }
 
+    public Integer getQuestionScore() {
+        return questionScore;
+    }
+
     public Question setQuestionTopic(Topic questionTopic) {
         this.questionTopic = questionTopic;
         return this;
+    }
+
+    public Answer<T> getCorrectAnswer() {
+        return correctAnswer;
+    }
+
+    public Answer<T> getYourAnswer() {
+        return yourAnswer;
     }
 
     @Override
@@ -41,9 +58,7 @@ public class QuestionWithOptions<T> implements Question<T> {
 
     @Override
     public List<String> getOptions() {
-        List<String> newList = new ArrayList<>();
-        Collections.copy(newList, options);
-        return newList;
+        return new ArrayList<>(options);
     }
 
     @Override
@@ -63,10 +78,27 @@ public class QuestionWithOptions<T> implements Question<T> {
 
     @Override
     public Boolean giveAnswer(Answer<T> answer) {
-        if (yourAnswer==null){
-        this.yourAnswer=answer;
-        return true;
+        if (yourAnswer == null) {
+            this.yourAnswer = answer;
+            return true;
         }
+        isAnswered = true;
         return false;
+    }
+
+    @Override
+    public Integer getPossibleScore() {
+        return questionScore;
+    }
+
+    @Override
+    public Boolean isAnswered() {
+        return isAnswered;
+    }
+
+    @Override
+    public Question<T> duplicate() {
+        return new QuestionWithOptions<>(
+                question, new ArrayList<>(options), questionTopic, correctAnswer.duplicate(), questionScore);
     }
 }

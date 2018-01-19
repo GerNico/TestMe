@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -17,9 +18,12 @@ public class SingleOptionQuestionTest {
 
     @Before
     public void init() {
+        String theQuestion = "Are you gay?";
+        Topic theTopic = new Topic(3, "Sexual");
+        List<String> options = Arrays.asList("Yes", "No");
+        Integer score = 2;
         Answer<Integer> correctAnswer = new AnswerImpl<>(1);
-        question = new QuestionWithOptions<>("Are you gay?",
-                Arrays.asList("Yes", "No"), new Topic(1, "Sexual"), correctAnswer);
+        question = new QuestionWithOptions<>(theQuestion, options, theTopic, correctAnswer, score);
     }
 
     @Test
@@ -32,7 +36,7 @@ public class SingleOptionQuestionTest {
 
     @Test
     public void correctAnswer() {
-        Answer<Integer> answer=new AnswerImpl<>(1);
+        Answer<Integer> answer = new AnswerImpl<>(1);
         assertFalse(question.isAnswerCorrect());
         question.giveAnswer(answer);
         assertTrue(question.isAnswerCorrect());
@@ -40,7 +44,7 @@ public class SingleOptionQuestionTest {
 
     @Test
     public void wrongAnswer() {
-        Answer<Integer> answer=new AnswerImpl<>(0);
+        Answer<Integer> answer = new AnswerImpl<>(0);
         assertFalse(question.isAnswerCorrect());
         question.giveAnswer(answer);
         assertFalse(question.isAnswerCorrect());
@@ -48,10 +52,10 @@ public class SingleOptionQuestionTest {
 
     @Test
     public void immutableAnswer() {
-        Answer<Integer> answer=new AnswerImpl<>(0);
+        Answer<Integer> answer = new AnswerImpl<>(0);
         assertFalse(question.isAnswerCorrect());
         question.giveAnswer(answer);
-        Answer<Integer> newAnswer=new AnswerImpl<>(1);
+        Answer<Integer> newAnswer = new AnswerImpl<>(1);
         question.giveAnswer(newAnswer);
         assertFalse(question.isAnswerCorrect());
     }

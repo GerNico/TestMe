@@ -1,6 +1,7 @@
 package com.test.bysiness.answers;
 
 import com.test.bysiness.Answer;
+import com.test.bysiness.Clone;
 
 import java.util.Objects;
 
@@ -27,5 +28,10 @@ public class AnswerImpl<T> implements Answer<T> {
     @Override
     public int hashCode() {
         return Objects.hash(value);
+    }
+
+    @Override
+    public Answer<T> duplicate() {
+        return new AnswerImpl<>((T) Clone.deepCopy(value));
     }
 }

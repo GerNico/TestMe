@@ -8,8 +8,8 @@ import java.util.List;
 
 public class QuestionWithoutOptions<T> extends QuestionWithOptions<T> {
 
-    QuestionWithoutOptions(String question, Topic questionTopic, Answer<T> correctAnswer) {
-        super(question, Collections.emptyList(), questionTopic, correctAnswer);
+    QuestionWithoutOptions(String question, Topic questionTopic, Answer<T> correctAnswer, Integer questionScore) {
+        super(question, Collections.emptyList(), questionTopic, correctAnswer, questionScore);
     }
 
     @Override
@@ -19,6 +19,6 @@ public class QuestionWithoutOptions<T> extends QuestionWithOptions<T> {
 
     @Override
     public Boolean isAnswerCorrect() {
-        return this.yourAnswer != null && this.correctAnswer.get().equals(this.yourAnswer.get());
+        return this.getYourAnswer() != null && this.getCorrectAnswer().get().equals(this.getYourAnswer().get());
     }
 }

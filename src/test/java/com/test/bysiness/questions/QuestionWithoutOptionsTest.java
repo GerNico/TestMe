@@ -14,9 +14,11 @@ public class QuestionWithoutOptionsTest {
 
     @Before
     public void init() {
+        String theQuestion = "Who was lord of the ring?";
+        Topic theTopic = new Topic(2, "Cinema");
         Answer<String> correctAnswer = new AnswerImpl<>("Sauron");
-        question = new QuestionWithoutOptions<>(
-                "Who was lord of the ring?", new Topic(2, "Cinema"), correctAnswer);
+        Integer score = 2;
+        question = new QuestionWithoutOptions<>(theQuestion, theTopic, correctAnswer, score);
     }
 
     @Test
@@ -29,7 +31,7 @@ public class QuestionWithoutOptionsTest {
 
     @Test
     public void correctAnswer() {
-        Answer<String> answer=new AnswerImpl<>("Sauron");
+        Answer<String> answer = new AnswerImpl<>("Sauron");
         assertFalse(question.isAnswerCorrect());
         question.giveAnswer(answer);
         assertTrue(question.isAnswerCorrect());
@@ -37,7 +39,7 @@ public class QuestionWithoutOptionsTest {
 
     @Test
     public void wrongAnswer() {
-        Answer<String> answer=new AnswerImpl<>("Frodo");
+        Answer<String> answer = new AnswerImpl<>("Frodo");
         assertFalse(question.isAnswerCorrect());
         question.giveAnswer(answer);
         assertFalse(question.isAnswerCorrect());
@@ -45,10 +47,10 @@ public class QuestionWithoutOptionsTest {
 
     @Test
     public void immutableAnswer() {
-        Answer<String> answer=new AnswerImpl<>("Frodo");
+        Answer<String> answer = new AnswerImpl<>("Frodo");
         assertFalse(question.isAnswerCorrect());
         question.giveAnswer(answer);
-        Answer<String> newAnswer=new AnswerImpl<>("Sauron");
+        Answer<String> newAnswer = new AnswerImpl<>("Sauron");
         question.giveAnswer(newAnswer);
         assertFalse(question.isAnswerCorrect());
     }

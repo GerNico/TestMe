@@ -2,7 +2,7 @@ package com.test.bysiness;
 
 import java.util.List;
 
-public interface Question<T> {
+public interface Question<T> extends Duplicate<Question<T>> {
 
     Integer getId();
 
@@ -15,5 +15,9 @@ public interface Question<T> {
     Boolean isAnswerCorrect();
 
     Boolean giveAnswer(Answer<T> answer);
+
+    Integer getPossibleScore();
+
+    Boolean isAnswered();
 
 }

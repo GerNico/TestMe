@@ -1,5 +1,7 @@
 package com.test.bysiness;
 
-public interface Answer<T> {
+import java.io.Serializable;
+
+public interface Answer<T> extends Duplicate<Answer<T>> {
     T get();
 }
