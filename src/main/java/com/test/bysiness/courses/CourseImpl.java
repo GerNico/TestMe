@@ -1,5 +1,8 @@
 package com.test.bysiness.courses;
 
+import com.test.bysiness.Course;
+import com.test.bysiness.Test;
+
 import java.util.List;
 
 public class CourseImpl implements Course {

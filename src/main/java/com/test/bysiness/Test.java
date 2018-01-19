@@ -1,10 +1,10 @@
-package com.test.bysiness.courses;
-
-import com.test.bysiness.Question;
+package com.test.bysiness;
 
 import java.util.List;
 
 public interface Test {
+
+    Integer getId();
 
     Integer getScore();
 
@@ -17,4 +17,9 @@ public interface Test {
     Integer maxScore();
 
     List<Question> getAllQuestions();
+
+    Topic getMainTopic();
+
+    Question get(Integer index);
+
 }

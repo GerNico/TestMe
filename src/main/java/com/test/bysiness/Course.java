@@ -1,4 +1,4 @@
-package com.test.bysiness.courses;
+package com.test.bysiness;
 
 import java.util.List;
 

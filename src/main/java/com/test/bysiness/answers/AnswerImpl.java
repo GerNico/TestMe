@@ -1,7 +1,7 @@
 package com.test.bysiness.answers;
 
 import com.test.bysiness.Answer;
-import com.test.bysiness.Clone;
+import com.test.bysiness.utilities.Clone;
 
 import java.util.Objects;
 
