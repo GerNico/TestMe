@@ -1,25 +1,53 @@
 package com.test.bysiness;
 
+import com.test.bysiness.questions.Question;
+
 import java.util.List;
+import java.util.Objects;
 
-public interface Test {
+public class Test {
+    private Integer id;
+    private List<Question> questionList;
 
-    Integer getId();
+    public Test() {
+    }
 
-    Integer getScore();
+    public Integer getId() {
+        return id;
+    }
 
-    Boolean isPassed();
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-    Boolean isCompleted();
+    public List<Question> getQuestionList() {
+        return questionList;
+    }
 
-    Integer getThreshold();
+    public void setQuestionList(List<Question> questionList) {
+        this.questionList = questionList;
+    }
 
-    Integer maxScore();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Test test = (Test) o;
+        return Objects.equals(id, test.id) &&
+                Objects.equals(questionList, test.questionList);
+    }
 
-    List<Question> getAllQuestions();
+    @Override
+    public int hashCode() {
 
-    Topic getMainTopic();
+        return Objects.hash(id, questionList);
+    }
 
-    Question get(Integer index);
-
+    @Override
+    public String toString() {
+        return "Test{" +
+                "id=" + id +
+                ", questionList=" + questionList +
+                '}';
+    }
 }
