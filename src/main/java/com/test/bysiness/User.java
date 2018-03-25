@@ -1,57 +1,77 @@
 package com.test.bysiness;
 
-import java.io.Serializable;
+import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
-
-public class User implements Serializable {
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @Column(name = "USER_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "login",unique = true,nullable = false)
     private String login;
+    @Column(name = "email",unique = true,nullable = false)
     private String email;
+    @Column(name = "user_password",nullable = false)
     private String passwordHash;
+    @Transient
     private List<Course> courses;
 
     public User() {
     }
 
-    public List<Course> getCourses() {
-        return courses;
+    public User(Integer id, String login, String email, String passwordHash, List<Course> courses) {
+        this.id = id;
+        this.login = login;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.courses = courses;
+    }
+
+    public User(String login, String email, String passwordHash, List<Course> courses) {
+        this.login = login;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.courses = courses;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public void setLogin(String login) {
+        this.login = login;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
 
-    public Integer getId() {
-        return id;
+    public List<Course> getCourses() {
+        return courses;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getId() {
+        return id;
     }
 
     public String getLogin() {
         return login;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPasswordHash() {
         return passwordHash;
-    }
-
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
     }
 
     @Override
@@ -59,8 +79,7 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(login, user.login) &&
+        return Objects.equals(login, user.login) &&
                 Objects.equals(email, user.email) &&
                 Objects.equals(passwordHash, user.passwordHash) &&
                 Objects.equals(courses, user.courses);
@@ -68,8 +87,7 @@ public class User implements Serializable {
 
     @Override
     public int hashCode() {
-
-        return Objects.hash(id, login, email, passwordHash, courses);
+        return Objects.hash(login, email, passwordHash, courses);
     }
 
     @Override
