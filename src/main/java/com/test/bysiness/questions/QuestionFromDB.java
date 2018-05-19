@@ -1,84 +1,39 @@
 package com.test.bysiness.questions;
 
-import java.util.List;
-import java.util.Objects;
+import com.test.bysiness.utilities.ValidateString;
+import lombok.*;
 
-class QuestionFromDB {
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "QUESTIONS")
+@EqualsAndHashCode(of = "id")
+@ToString(exclude = "id")
+@NoArgsConstructor
+@Getter
+@Setter
+public class QuestionFromDB {
+    @Id
+    @Column(name = "QUESTION_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "QUESTION", nullable = false)
     private String question;
-    private String answer;
-    private QuestionType type;
-    private List<OptionFromDB> optionsList;
+    @Column(name = "ANSWER_NO_OPTION", nullable = false)
+    private String answerForNoOptions;
+    @Column(name = "QUESTION_TYPE", nullable = false)
+    @ValidateString(acceptedValues = {"with_options", "without_options", "sequential"}
+            , message = "not supported question type")
+    private String type;
 
-    public QuestionFromDB() {
-    }
+    @Setter(value = AccessLevel.PRIVATE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "parentQuestion", orphanRemoval = true)
+    private Set<OptionFromDB> options = new HashSet<>();
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public QuestionType getType() {
-        return type;
-    }
-
-    public void setType(QuestionType type) {
-        this.type = type;
-    }
-
-    public List<OptionFromDB> getOptionsList() {
-        return optionsList;
-    }
-
-    public void setOptionsList(List<OptionFromDB> optionsList) {
-        this.optionsList = optionsList;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        QuestionFromDB that = (QuestionFromDB) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(question, that.question) &&
-                Objects.equals(answer, that.answer) &&
-                type == that.type &&
-                Objects.equals(optionsList, that.optionsList);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, question, answer, type, optionsList);
-    }
-
-    @Override
-    public String toString() {
-        return "QuestionFromDB{" +
-                "id=" + id +
-                ", question='" + question + '\'' +
-                ", answer='" + answer + '\'' +
-                ", type=" + type +
-                ", optionsList=" + optionsList +
-                '}';
+    public void addOption(OptionFromDB option) {
+        options.add(option);
+        option.setParentQuestion(this);
     }
 }

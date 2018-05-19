@@ -18,7 +18,7 @@ public class UserService {
 
     @Autowired
     public UserService(UserRepository userRepository) {
-        this.userRepository=userRepository;
+        this.userRepository = userRepository;
     }
 
     public List<User> getAll() {
@@ -27,19 +27,19 @@ public class UserService {
         return users;
     }
 
-    public User get(Integer id) {
+    User get(Integer id) {
         return userRepository.findOne(id);
     }
 
-    public User save(User user) {
-       return userRepository.save(user);
+    User save(User user) {
+        return userRepository.save(user);
     }
 
     public void delete(Integer id) {
         userRepository.delete(id);
     }
 
-    public void delete(User user) {
+    void delete(User user) {
         userRepository.delete(user);
     }
 
