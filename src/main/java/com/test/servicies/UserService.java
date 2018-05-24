@@ -1,6 +1,6 @@
 package com.test.servicies;
 
-import com.test.bysiness.User;
+import com.test.bysiness.entities.UserEntity;
 import com.test.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,29 +18,27 @@ public class UserService {
 
     @Autowired
     public UserService(UserRepository userRepository) {
-        this.userRepository=userRepository;
+        this.userRepository = userRepository;
     }
 
-    public List<User> getAll() {
-        List<User> users = new ArrayList<>();
-        userRepository.findAll().forEach(users::add);
-        return users;
+    public List<UserEntity> getAll() {
+        return new ArrayList<>(userRepository.findAll());
     }
 
-    public User get(Integer id) {
+    UserEntity get(Long id) {
         return userRepository.findOne(id);
     }
 
-    public User save(User user) {
-       return userRepository.save(user);
+    UserEntity save(UserEntity userEntity) {
+        return userRepository.save(userEntity);
     }
 
-    public void delete(Integer id) {
+    public void delete(Long id) {
         userRepository.delete(id);
     }
 
-    public void delete(User user) {
-        userRepository.delete(user);
+    void delete(UserEntity userEntity) {
+        userRepository.delete(userEntity);
     }
 
 }

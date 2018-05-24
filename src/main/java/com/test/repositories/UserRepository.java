@@ -1,7 +1,7 @@
 package com.test.repositories;
 
-import com.test.bysiness.User;
-import org.springframework.data.repository.CrudRepository;
+import com.test.bysiness.entities.UserEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends CrudRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<UserEntity, Long> {
 }
