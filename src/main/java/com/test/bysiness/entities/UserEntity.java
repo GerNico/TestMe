@@ -25,7 +25,7 @@ public class UserEntity {
     @Email
     private String email;
     @Column(name = "USER_ROLE", nullable = false)
-    @ValidateString(acceptedValues = {"user", "admin", "author", "moderator"}, message = "Invalid user role")
+    @ValidateString(acceptedValues = {"User", "Admin", "Author", "Moderator"}, message = "Invalid role")
     private String role;
     @Column(name = "user_password", nullable = false)
     private String passwordHash;

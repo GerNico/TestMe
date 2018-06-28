@@ -3,13 +3,20 @@ package com.test.servicies;
 import com.test.bysiness.entities.UserEntity;
 import com.test.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private UserRepository userRepository;
 
@@ -41,4 +48,20 @@ public class UserService {
         userRepository.delete(userEntity);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findByLogin(login);
+        if (userEntity != null) {
+            Collection<GrantedAuthority> authorityes = new ArrayList<>();
+            authorityes.add(new SimpleGrantedAuthority(userEntity.getRole()));
+            return new User(userEntity.getLogin(), userEntity.getPasswordHash(), authorityes);
+        } else {
+            return User.withUsername(login)
+                    .password("")
+                    .authorities("")
+                    .accountExpired(true)
+                    .accountLocked(true)
+                    .disabled(true).build();
+        }
+    }
 }
