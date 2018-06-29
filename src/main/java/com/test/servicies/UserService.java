@@ -44,6 +44,10 @@ public class UserService implements UserDetailsService {
         userRepository.delete(id);
     }
 
+    public UserEntity find(String login) {
+        return userRepository.findByLogin(login);
+    }
+
     void delete(UserEntity userEntity) {
         userRepository.delete(userEntity);
     }

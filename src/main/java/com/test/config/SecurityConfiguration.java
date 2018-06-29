@@ -1,9 +1,7 @@
 package com.test.config;
 
-
 import com.test.servicies.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,17 +9,18 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    final private UserService userService;
+    private final UserService userService;
+    private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
     @Autowired
-    public SecurityConfiguration(UserService userService) {
+    public SecurityConfiguration(UserService userService, RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
         this.userService = userService;
+        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
     }
 
     @Autowired
@@ -34,26 +33,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .anyRequest()
+                .antMatchers("/login*").permitAll()
+                .mvcMatchers("/rest/**")
                 .authenticated()
+                .and().httpBasic()
+                .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
-                .formLogin()
+                .formLogin().loginPage("/login")
                 .and()
                 .logout().logoutSuccessUrl("/login?logout");
-        http.csrf().csrfTokenRepository(csrfTokenRepository());
-        // TODO add valid accessDeniedPage f.e. .exceptionHandling().accessDeniedPage("/signup")
+        http.csrf().disable();
     }
-
-    @Bean
-    public CsrfTokenRepository csrfTokenRepository() {
-        CookieCsrfTokenRepository repository = new CookieCsrfTokenRepository();
-        repository.setCookieHttpOnly(false);
-        return repository;
-    }
-
 
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web.ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
     }
