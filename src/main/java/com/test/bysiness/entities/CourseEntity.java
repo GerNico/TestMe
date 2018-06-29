@@ -16,6 +16,8 @@ public class CourseEntity {
     @Column(name = "COURSE_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+    @Column(name = "COURSE_NAME")
+    String courseName;
     @Column(name = "COURSE_DESCRIPTION")
     String courseDescription;
     @Setter(value = AccessLevel.PRIVATE)
