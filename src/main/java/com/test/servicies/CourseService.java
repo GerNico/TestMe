@@ -26,6 +26,6 @@ public class CourseService {
     }
 
     public CourseEntity get(Long id){
-        return courseRepository.getOne(id);
+        return courseRepository.findOne(id);
     }
 }
