@@ -1,10 +1,10 @@
 package com.test.bysiness.entities;
 
-import com.test.bysiness.utilities.Clone;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity(name = "COURSES")
 @EqualsAndHashCode(exclude = {"id","subscribedUsers"})
@@ -33,7 +33,7 @@ public class CourseEntity {
     @ManyToMany(mappedBy = "subscribedCourses")
     Set<UserEntity> subscribedUsers = new HashSet<>();
 
-    public Set<UserEntity> getSubscribers(){
-        return (Set<UserEntity>) Clone.deepCopy(subscribedUsers);
+    public Set<String> getSubscribers(){
+        return subscribedUsers.stream().map(UserEntity::getLogin).collect(Collectors.toSet());
     }
 }

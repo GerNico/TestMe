@@ -1,5 +1,6 @@
 package com.test.bysiness.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.test.bysiness.utilities.ValidateString;
 import lombok.*;
 
@@ -41,5 +42,6 @@ public class QuestionEntity {
 
     @ManyToOne
     @JoinColumn(name = "TEST_ID")
+    @JsonIgnore
     private TestEntity parentTest;
 }

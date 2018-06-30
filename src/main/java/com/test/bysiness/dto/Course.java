@@ -10,10 +10,10 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Question {
+public class Course {
     private long id;
-    private String question;
-    private String answerForNoOptions;
-    private String type;
-    private Set<Option> options = new HashSet<>();
+    private String courseName;
+    private String courseDescription;
+    private Set<Test> tests = new HashSet<>();
+    private Set<Subscriber> subscribedUsers = new HashSet<>();
 }

@@ -59,6 +59,5 @@ CREATE TABLE SUBSCRIPTIONS
     references USERS,
   COURSE_ID       LONG NOT NULL
     constraint FK_SUBSCRIBED_COURSE
-    references COURSES,
-  TEST_STATUS     VARCHAR(30)
+    references COURSES
 );
