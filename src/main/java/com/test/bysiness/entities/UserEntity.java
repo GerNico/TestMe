@@ -1,7 +1,10 @@
 package com.test.bysiness.entities;
 
 import com.test.bysiness.utilities.ValidateString;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;

@@ -1,5 +1,6 @@
 package com.test.bysiness.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Entity(name = "TESTS")
 @EqualsAndHashCode(of = "id")
-@ToString(exclude = {"id", "parentCourse", "entities"})
+@ToString(exclude = {"id", "parentCourse"})
 @NoArgsConstructor
 @Getter
 @Setter
@@ -32,5 +33,6 @@ public class TestEntity {
 
     @ManyToOne
     @JoinColumn(name = "COURSE_ID")
+    @JsonIgnore
     private CourseEntity parentCourse;
 }

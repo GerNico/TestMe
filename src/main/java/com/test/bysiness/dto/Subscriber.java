@@ -4,13 +4,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @Getter
 @Setter
-public class Option {
+public class Subscriber {
     private long id;
-    private String text;
-    private boolean isCorrect;
-    private boolean isSequenceBased;
-    private long numberInSequence;
+    private String login;
+    private String email;
+    private Set<Long> coursesId;
 }
