@@ -7,13 +7,9 @@ import com.test.bysiness.entities.UserEntity;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class UserEntityToSubscriber implements Function<UserEntity, Subscriber> {
-    @Override
-    public Subscriber apply(UserEntity userEntity) {
-        return convert(userEntity);
-    }
+public class UserTransformRules {
 
-    public static Subscriber convert(UserEntity userEntity) {
+    public static Function<UserEntity, Subscriber> userEntityToSubscriber = userEntity -> {
         Subscriber subscriber = new Subscriber();
         subscriber.setId(userEntity.getId());
         subscriber.setLogin(userEntity.getLogin());
@@ -23,5 +19,5 @@ public class UserEntityToSubscriber implements Function<UserEntity, Subscriber> 
                         .map(CourseEntity::getId)
                         .collect(Collectors.toSet()));
         return subscriber;
-    }
+    };
 }

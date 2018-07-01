@@ -6,25 +6,21 @@ import com.test.bysiness.entities.CourseEntity;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class CourseEntityToCourse implements Function<CourseEntity, Course> {
-    @Override
-    public Course apply(CourseEntity courseEntity) {
-        return convert(courseEntity);
-    }
+public class CourseTransformRules {
 
-    public static Course convert(CourseEntity courseEntity) {
+    public static Function<CourseEntity, Course> optionEntityToOption = courseEntity -> {
         Course course = new Course();
         course.setId(courseEntity.getId());
         course.setCourseName(courseEntity.getCourseName());
         course.setCourseDescription(courseEntity.getCourseDescription());
         course.setTests(
                 courseEntity.getTests().stream()
-                        .map(TestEntityToTest::convert)
+                        .map(TestTransformRules.testEntityToTest)
                         .collect(Collectors.toSet()));
         course.setSubscribedUsers(
                 courseEntity.getSubscribedUsers().stream()
-                        .map(UserEntityToSubscriber::convert)
+                        .map(UserTransformRules.userEntityToSubscriber)
                         .collect(Collectors.toSet()));
         return course;
-    }
+    };
 }
