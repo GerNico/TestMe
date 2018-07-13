@@ -17,7 +17,7 @@ public class TestService {
         this.testRepository = testRepository;
     }
 
-    TestEntity save(TestEntity test) {
+    public TestEntity save(TestEntity test) {
         return testRepository.save(test);
     }
 

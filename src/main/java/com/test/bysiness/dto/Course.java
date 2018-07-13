@@ -13,6 +13,7 @@ import java.util.Set;
 public class Course {
     private long id;
     private String courseName;
+    private String pictureUrl;
     private String courseDescription;
     private Set<Test> tests = new HashSet<>();
     private Set<Subscriber> subscribedUsers = new HashSet<>();

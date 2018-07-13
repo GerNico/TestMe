@@ -20,6 +20,8 @@ public class CourseEntity {
     String courseName;
     @Column(name = "COURSE_DESCRIPTION")
     String courseDescription;
+    @Column(name = "COURSE_PICT_URL")
+    String courseUrl;
     @Setter(value = AccessLevel.PRIVATE)
     @OneToMany(fetch = FetchType.LAZY,
             cascade = CascadeType.ALL,
