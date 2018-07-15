@@ -30,7 +30,7 @@ public class CourseTransformRules {
         CourseInfo courseInfo = new CourseInfo();
         courseInfo.setId(courseEntity.getId());
         courseInfo.setName(courseEntity.getCourseName());
-        courseInfo.setPictureLink(courseEntity.getCourseDescription());
+        courseInfo.setPictureLink(courseEntity.getCourseUrl());
         return courseInfo;
     };
 }

@@ -18,11 +18,18 @@ Also should exist userEntity-moderator which is able to:
 
 REST Maping
 ======
-method|uri|action
+method|URI|action
 ------|------------------------|------
 POST | rest/courses| create course request body
-POST | rest/course/{**id**}/tests| insert test from request body in to course by course id URL param
-POST | rest/course/{**courseId**}/test/{**testId**}/questions| insert question from request body in to test by URL params
+GET | rest/courses| get info about all courses
+GET | rest/course/**courseId**| get course by id
+POST | rest/course/**id**/tests| insert test from request body in to course by course id URL param
+POST | rest/course/**courseId**/test/**testId**/questions| insert question from request body in to test by URL params
+GET | rest/test/**testId**| get test by id
+POST | rest/test/**testId**/questions| insert question from request body in to test its id
+POST | rest/test/**testId**/question/**questionId**| edit question by test id and question id
+POST | rest/userUnique| check if exists user with **login**
+POST | rest/suscribe| suscribe user with **login** on to course with id **courseId**
 
 
 Postman hints:

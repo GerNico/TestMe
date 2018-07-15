@@ -31,12 +31,12 @@ public class TestController {
     }
 
     @RequestMapping(value = "rest/test/{testId}/questions", method = RequestMethod.POST)
-    public ResponseEntity<Messages> insertQuestionInTest(@PathVariable Long testId, @RequestBody Question question) {
+    public ResponseEntity<Test> insertQuestionInTest(@PathVariable Long testId, @RequestBody Question question) {
         TestEntity testEntity = testService.get(testId);
-        if (testEntity == null) return new ResponseEntity<>(TEST_NOT_EXIST, HttpStatus.BAD_REQUEST);
+        if (testEntity == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         testEntity.addQuestion(QuestionTransformRules.questionToQuestionEntity.apply(question));
-        testService.save(testEntity);
-        return new ResponseEntity<>(Messages.TEST_ADDED, HttpStatus.OK);
+        testEntity = testService.save(testEntity);
+        return new ResponseEntity<>(TestTransformRules.testEntityToTest.apply(testEntity), HttpStatus.OK);
     }
 
     @RequestMapping(value = "rest/test/{testId}/question/{questionId}", method = RequestMethod.POST)

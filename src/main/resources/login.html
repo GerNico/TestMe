@@ -1,0 +1,81 @@
+<html>
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-theme.min.css" rel="stylesheet">
+    <script src="js/angular.js"></script>
+    <script src="js/TestingGalaxy.js"></script>
+</head>
+<body ng-app="TestingGalaxy">
+
+<nav class="navbar navbar-default" role="navigation" ng-controller="navBarController as navBar">
+    <div class="container-fluid">
+
+        <div class="navbar-header">
+            <a class={{navBar.navBarHome.theClass}} href={{navBar.navBarHome.reference}}>{{navBar.navBarHome.label}} </a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li ng-repeat="item in navBar.menuList" class={{item.theClass}}>
+                <a href={{item.reference}}>{{item.label}}</a></li>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class={{navBar.dropdownMenuList.htmlCaptionIcon}}></span>
+                    {{navBar.dropdownMenuList.htmlCaptionLabel}}<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="item2 in navBar.dropdownMenuList.listItems">
+                        <a href={{item2.reference}} class={{item2.theClass}}>{{item2.label}}</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container" ng-controller="loginPageController as lpCont">
+    <div id="loginbox" style="{{lpCont.magingTop}}" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Sign In</div>
+                <div style="float:right; font-size: 80%; position: relative; top:-20px"><a
+                        href={{navBar.passwordRecovering.reference}}>{{navBar.passwordRecovering.label}}</a></div>
+            </div>
+
+            <div style="padding-top:30px" class="panel-body">
+
+                <form id="loginform" class="form-horizontal" method="post" action="root\home"  >
+
+                    <div style="margin-bottom: 25px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="login-username" type="text" class="form-control" name="userName"
+                               required placeholder="login" ng-model="user.login">
+                    </div>
+
+                    <div style="margin-bottom: 5px" class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="login-password" type="password" class="form-control" name="password"
+                               required placeholder="password" ng-model="user.password">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="checkbox">
+                            <label>
+                                <input id="login-remember" type="checkbox" name="remember" value=true ng-model="user.toRemember"> Remember me
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 controls text-center">
+                        <button type="submit"  id="btn-login" class="btn btn-success btn-md" ng-click="lpCont.submitLoginForm()">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<script src="js/jquery-3.2.1.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+</body>
+</html>
