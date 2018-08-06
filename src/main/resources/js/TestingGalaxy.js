@@ -1,6 +1,7 @@
 var app = angular.module('TestingGalaxy', []);
 
 app.controller('navBarController', function () {
+
     this.navBarHome={reference: "/root/home", label: "Testing Galaxy", theClass: "navbar-brand"};
 
     this.menuList = [
@@ -17,6 +18,7 @@ app.controller('navBarController', function () {
             {reference: "/test/2", label: "second test", theClass: "active"}
         ]
     }
+    
 });
 
 app.controller('loginPageController', function () {
