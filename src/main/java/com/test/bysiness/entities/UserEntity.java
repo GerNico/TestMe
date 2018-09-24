@@ -1,6 +1,6 @@
 package com.test.bysiness.entities;
 
-import com.test.bysiness.utilities.ValidateString;
+import com.test.bysiness.utilities.Roles;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,25 +12,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 @EqualsAndHashCode(exclude = {"id","subscribedCourses"})
 @NoArgsConstructor
 @Getter
 @Setter
 public class UserEntity {
     @Id
-    @Column(name = "user_id")
+    @Column(name = "USER_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "login", unique = true, nullable = false)
+    @Column(name = "LOGIN", unique = true, nullable = false)
     private String login;
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "EMAIL", unique = true, nullable = false)
     @Email
     private String email;
     @Column(name = "USER_ROLE", nullable = false)
-    @ValidateString(acceptedValues = {"User", "Admin", "Author", "Moderator"}, message = "Invalid role")
-    private String role;
-    @Column(name = "user_password", nullable = false)
+    @Enumerated
+    private Roles role;
+    @Column(name = "USER_PASSWORD", nullable = false)
     private String passwordHash;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

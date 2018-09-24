@@ -57,16 +57,15 @@ public class UserService implements UserDetailsService {
         userEntity.setLogin(subscriber.getLogin());
         userEntity.setEmail(subscriber.getEmail());
         userEntity.setPasswordHash(new BCryptPasswordEncoder().encode(password));
-        userEntity.setRole("User");
+        userEntity.setRole(Roles.User);
         userEntity.setSubscribedCourses(new HashSet<>());
         userEntity = userRepository.save(userEntity);
         return UserTransformRules.userEntityToSubscriber.apply(userEntity);
     }
 
-    String changeUserRole(Subscriber subscriber, String password, String role) {
+    String changeUserRole(Subscriber subscriber, String password, Roles role) {
         UserEntity userEntity = userRepository.findByLogin(subscriber.getLogin());
         if (!userEntity.getPasswordHash().equals(new BCryptPasswordEncoder().encode(password))) return "Wrong password";
-        if (!Roles.isValid(role)) return "Wrong role name";
         userEntity.setRole(role);
         userEntity = userRepository.save(userEntity);
         return "Ok";
@@ -100,7 +99,7 @@ public class UserService implements UserDetailsService {
         UserEntity userEntity = userRepository.findByLogin(login);
         if (userEntity != null) {
             Collection<GrantedAuthority> authorityes = new ArrayList<>();
-            authorityes.add(new SimpleGrantedAuthority(userEntity.getRole()));
+            authorityes.add(new SimpleGrantedAuthority(userEntity.getRole().getName()));
             return new User(userEntity.getLogin(), userEntity.getPasswordHash(), authorityes);
         } else {
             return User.withUsername(login)

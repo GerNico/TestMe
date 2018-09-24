@@ -1,15 +1,11 @@
 package com.test.bysiness.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class Course {
     private long id;
     private String courseName;

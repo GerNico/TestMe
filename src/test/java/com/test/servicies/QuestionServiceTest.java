@@ -2,6 +2,7 @@ package com.test.servicies;
 
 import com.test.bysiness.entities.OptionEntity;
 import com.test.bysiness.entities.QuestionEntity;
+import com.test.bysiness.utilities.QuestionType;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,7 +32,7 @@ public class QuestionServiceTest {
     @Test
     public void persistQuestion() {
         questionToPersist.setQuestion("Who was Morgoth Bauglir?");
-        questionToPersist.setType("with_options");
+        questionToPersist.setType(QuestionType.WITH_OPTIONS);
 
         OptionEntity option1 = new OptionEntity();
         option1.setText("Lord of the rings");

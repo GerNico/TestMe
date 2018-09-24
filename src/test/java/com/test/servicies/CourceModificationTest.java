@@ -4,6 +4,7 @@ import com.test.bysiness.entities.CourseEntity;
 import com.test.bysiness.entities.OptionEntity;
 import com.test.bysiness.entities.QuestionEntity;
 import com.test.bysiness.entities.TestEntity;
+import com.test.bysiness.utilities.QuestionType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class CourceModificationTest {
 
         QuestionEntity questionToPersist = new QuestionEntity();
         questionToPersist.setQuestion("Who was Morgoth Bauglir?");
-        questionToPersist.setType("with_options");
+        questionToPersist.setType(QuestionType.WITH_OPTIONS);
 
         OptionEntity option1 = new OptionEntity();
         option1.setText("Lord of the rings");
@@ -49,7 +50,7 @@ public class CourceModificationTest {
         QuestionEntity questionToPersist2 = new QuestionEntity();
 
         questionToPersist2.setQuestion("Name of mister Baggins, from brotherhood of the ring?");
-        questionToPersist2.setType("without_options");
+        questionToPersist2.setType(QuestionType.WITHOUT_OPTIONS);
         questionToPersist2.setAnswerForNoOptions("Frodo");
 
         Stream.of(questionToPersist, questionToPersist2).forEach(testToPersist::addQuestion);

@@ -1,12 +1,8 @@
 package com.test.bysiness.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class Option {
     private long id;
     private String text;

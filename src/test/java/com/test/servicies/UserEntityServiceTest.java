@@ -1,6 +1,7 @@
 package com.test.servicies;
 
 import com.test.bysiness.entities.UserEntity;
+import com.test.bysiness.utilities.Roles;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class UserEntityServiceTest {
         userEntityToFind.setLogin("userToDelete");
         userEntityToFind.setEmail("userToDelete@email.com");
         userEntityToFind.setPasswordHash("SVKANDV-savashifbna-kdmpkpokmkbd");
-        userEntityToFind.setRole("admin");
+        userEntityToFind.setRole(Roles.Admin);
     }
 
     @Test
@@ -37,7 +38,7 @@ public class UserEntityServiceTest {
         userEntityToPersist.setLogin("userEntityToPersist");
         userEntityToPersist.setEmail("toPersist@email.com");
         userEntityToPersist.setPasswordHash("SVKANDV-sakdfbna-kdmbdmkbd");
-        userEntityToPersist.setRole("user");
+        userEntityToPersist.setRole(Roles.User);
         assertNull(userEntityToPersist.getId());
         userEntityToPersist = userService.save(userEntityToPersist);
         assertNotNull(userEntityToPersist.getId());

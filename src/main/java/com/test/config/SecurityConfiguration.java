@@ -34,14 +34,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/login*").permitAll()
-                .mvcMatchers("/rest/**")
-                .authenticated()
-                .and().httpBasic()
-                .authenticationEntryPoint(restAuthenticationEntryPoint)
-                .and()
-                .formLogin().loginPage("/login")
-                .and()
-                .logout().logoutSuccessUrl("/login?logout");
+                .mvcMatchers("/rest/**").permitAll();
+//                .authenticated()
+//                .and().httpBasic()
+//                .authenticationEntryPoint(restAuthenticationEntryPoint)
+//                .and()
+//                .formLogin().loginPage("/login")
+//                .and()
+//                .logout().logoutSuccessUrl("/login?logout");
         http.csrf().disable();
     }
 

@@ -8,9 +8,7 @@ import java.util.stream.Collectors;
 
 @Entity(name = "COURSES")
 @EqualsAndHashCode(exclude = {"id","subscribedUsers"})
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class CourseEntity {
     @Id
     @Column(name = "COURSE_ID")

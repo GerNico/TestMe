@@ -9,9 +9,7 @@ import javax.persistence.*;
 @Table(name = "OPTION_OF_ANSWER")
 @EqualsAndHashCode(exclude = {"id", "parentQuestion"})
 @ToString(exclude = {"id", "parentQuestion"})
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class OptionEntity {
     @Id
     @Column(name = "OPTION_ID")

@@ -1,17 +1,17 @@
 package com.test.bysiness.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.test.bysiness.utilities.Roles;
+import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class Subscriber {
     private long id;
     private String login;
     private String email;
+    private List<Roles> roles;
+    private List<Subscription> subscriptions;
     private Set<Long> coursesId;
 }

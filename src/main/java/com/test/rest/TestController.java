@@ -30,6 +30,12 @@ public class TestController {
         return new ResponseEntity<>(TestTransformRules.testEntityToTest.apply(testEntity), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "rest/test/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<Test> deleteTestById(@PathVariable Long id) {
+        testService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @RequestMapping(value = "rest/test/{testId}/questions", method = RequestMethod.POST)
     public ResponseEntity<Test> insertQuestionInTest(@PathVariable Long testId, @RequestBody Question question) {
         TestEntity testEntity = testService.get(testId);
@@ -50,7 +56,7 @@ public class TestController {
         questionToUpdate.ifPresent(q -> {
             q.setQuestion(newQuestionEntity.getQuestion());
             q.setType(newQuestionEntity.getType());
-            q.setAnswerForNoOptions(newQuestionEntity.getType());
+            q.setAnswerForNoOptions(newQuestionEntity.getAnswerForNoOptions());
         });
         testService.save(testEntity);
         return new ResponseEntity<>(QUESTION_SAVED, HttpStatus.OK);
