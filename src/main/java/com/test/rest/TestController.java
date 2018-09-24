@@ -56,7 +56,7 @@ public class TestController {
         questionToUpdate.ifPresent(q -> {
             q.setQuestion(newQuestionEntity.getQuestion());
             q.setType(newQuestionEntity.getType());
-            q.setAnswerForNoOptions(newQuestionEntity.getType());
+            q.setAnswerForNoOptions(newQuestionEntity.getAnswerForNoOptions());
         });
         testService.save(testEntity);
         return new ResponseEntity<>(QUESTION_SAVED, HttpStatus.OK);

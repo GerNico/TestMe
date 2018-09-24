@@ -1,6 +1,8 @@
 package com.test.servicies;
 
 import com.test.bysiness.entities.*;
+import com.test.bysiness.utilities.QuestionType;
+import com.test.bysiness.utilities.Roles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +34,12 @@ public class SubscriptionTest {
         userToSubscribe.setEmail("first_user@some.com");
         userToSubscribe.setLogin("first_user");
         userToSubscribe.setPasswordHash("vkjsdhvgkjhsd-vfasmlvkj-1521");
-        userToSubscribe.setRole("user");
+        userToSubscribe.setRole(Roles.User);
 
         userToUnSubscribe.setEmail("second_user@some.com");
         userToUnSubscribe.setLogin("second_user");
         userToUnSubscribe.setPasswordHash("hasggafkj-mvklcml-1567");
-        userToUnSubscribe.setRole("admin");
+        userToUnSubscribe.setRole(Roles.Admin);
         userToSubscribe = userService.save(userToSubscribe);
         userToUnSubscribe = userService.save(userToUnSubscribe);
 
@@ -65,7 +67,7 @@ public class SubscriptionTest {
 
         QuestionEntity questionToPersist = new QuestionEntity();
         questionToPersist.setQuestion("Who was Morgoth Bauglir?");
-        questionToPersist.setType("with_options");
+        questionToPersist.setType(QuestionType.WITH_OPTIONS);
 
         OptionEntity option1 = new OptionEntity();
         option1.setText("Lord of the rings");
@@ -82,7 +84,7 @@ public class SubscriptionTest {
         QuestionEntity questionToPersist2 = new QuestionEntity();
 
         questionToPersist2.setQuestion("Name of mister Baggins, from brotherhood of the ring?");
-        questionToPersist2.setType("without_options");
+        questionToPersist2.setType(QuestionType.WITH_OPTIONS);
         questionToPersist2.setAnswerForNoOptions("Frodo");
 
         Stream.of(questionToPersist, questionToPersist2).forEach(testToPersist::addQuestion);

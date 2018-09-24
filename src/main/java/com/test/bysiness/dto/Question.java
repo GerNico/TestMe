@@ -1,19 +1,16 @@
 package com.test.bysiness.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.test.bysiness.utilities.QuestionType;
+import lombok.Data;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class Question {
     private long id;
     private String question;
     private String answerForNoOptions;
-    private String type;
+    private QuestionType type;
     private Set<Option> options = new HashSet<>();
 }

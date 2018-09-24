@@ -6,6 +6,7 @@
 
 
     <include file="changelog\01-basic-tables.sql" relativeToChangelogFile="true"/>
+    <include file="changelog\02-basic-tables.sql" relativeToChangelogFile="true"/>
 
     <changeSet id="1" author="matsishin">
         <comment>Inserting user UN: Admin PS: Admin RL: Admin</comment>
