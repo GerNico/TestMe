@@ -6,11 +6,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class Course {
+public class CourseData {
     private long id;
     private String courseName;
     private String pictureUrl;
     private String courseDescription;
-    private Set<Test> tests = new HashSet<>();
-    private Set<Subscriber> subscribedUsers = new HashSet<>();
+    private Set<TestData> tests = new HashSet<>();
+    private Set<SubscriberData> subscribedUsers = new HashSet<>();
 }

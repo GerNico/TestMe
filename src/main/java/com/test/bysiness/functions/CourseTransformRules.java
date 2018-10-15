@@ -1,6 +1,6 @@
 package com.test.bysiness.functions;
 
-import com.test.bysiness.dto.Course;
+import com.test.bysiness.dto.CourseData;
 import com.test.bysiness.dto.CourseInfo;
 import com.test.bysiness.entities.CourseEntity;
 
@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 
 public class CourseTransformRules {
 
-    public static Function<CourseEntity, Course> courseEntityToCourse = courseEntity -> {
-        Course course = new Course();
+    public static Function<CourseEntity, CourseData> courseEntityToCourse = courseEntity -> {
+        CourseData course = new CourseData();
         course.setId(courseEntity.getId());
         course.setCourseName(courseEntity.getCourseName());
         course.setCourseDescription(courseEntity.getCourseDescription());

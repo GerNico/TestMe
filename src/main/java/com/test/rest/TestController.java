@@ -1,7 +1,7 @@
 package com.test.rest;
 
-import com.test.bysiness.dto.Question;
-import com.test.bysiness.dto.Test;
+import com.test.bysiness.dto.QuestionData;
+import com.test.bysiness.dto.TestData;
 import com.test.bysiness.entities.QuestionEntity;
 import com.test.bysiness.entities.TestEntity;
 import com.test.bysiness.functions.QuestionTransformRules;
@@ -24,20 +24,20 @@ public class TestController {
     private final TestServiceImpl testServiceImpl;
 
     @RequestMapping(value = "rest/test/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Test> findTestById(@PathVariable Long id) {
+    public ResponseEntity<TestData> findTestById(@PathVariable Long id) {
         TestEntity testEntity = testServiceImpl.get(id);
         if (testEntity == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(TestTransformRules.testEntityToTest.apply(testEntity), HttpStatus.OK);
     }
 
     @RequestMapping(value = "rest/test/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Test> deleteTestById(@PathVariable Long id) {
+    public ResponseEntity<TestData> deleteTestById(@PathVariable Long id) {
         testServiceImpl.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value = "rest/test/{testId}/questions", method = RequestMethod.POST)
-    public ResponseEntity<Test> insertQuestionInTest(@PathVariable Long testId, @RequestBody Question question) {
+    public ResponseEntity<TestData> insertQuestionInTest(@PathVariable Long testId, @RequestBody QuestionData question) {
         TestEntity testEntity = testServiceImpl.get(testId);
         if (testEntity == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         testEntity.addQuestion(QuestionTransformRules.questionToQuestionEntity.apply(question));
@@ -46,7 +46,7 @@ public class TestController {
     }
 
     @RequestMapping(value = "rest/test/{testId}/question/{questionId}", method = RequestMethod.POST)
-    public ResponseEntity<Messages> editQuestionInTest(@PathVariable Long testId, @PathVariable Long questionId, @RequestBody Question question) {
+    public ResponseEntity<Messages> editQuestionInTest(@PathVariable Long testId, @PathVariable Long questionId, @RequestBody QuestionData question) {
         TestEntity testEntity = testServiceImpl.get(testId);
         if (testEntity == null) return new ResponseEntity<>(TEST_NOT_EXIST, HttpStatus.BAD_REQUEST);
         QuestionEntity newQuestionEntity = QuestionTransformRules.questionToQuestionEntity.apply(question);

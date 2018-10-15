@@ -45,6 +45,7 @@ public class SubscriptionTest {
         assertNotNull(userToSubscribe.getId());
         assertNotNull(userToUnSubscribe.getId());
         assertNotNull(courseWithSubscribers.getId());
+
         userServiceImpl.delete(userToSubscribe.getId());
         userServiceImpl.delete(userToUnSubscribe.getId());
         courseServiceImpl.delete(courseWithSubscribers.getId());

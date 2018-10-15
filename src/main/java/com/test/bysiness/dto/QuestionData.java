@@ -7,10 +7,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
-public class Question {
+public class QuestionData {
     private long id;
     private String question;
     private String answerForNoOptions;
     private QuestionType type;
-    private Set<Option> options = new HashSet<>();
+    private Set<OptionData> options = new HashSet<>();
 }

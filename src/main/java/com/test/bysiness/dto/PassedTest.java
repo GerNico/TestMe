@@ -6,10 +6,11 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
+public
 class PassedTest {
     Long passedTestId;
     Long testId;
-    List<Answer> answers;
+    List<AnswerData> answerData;
     LocalDateTime startDate;
     LocalDateTime lastChangeDate;
 }

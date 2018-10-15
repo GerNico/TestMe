@@ -1,6 +1,6 @@
 package com.test.servicies.impl;
 
-import com.test.bysiness.dto.Course;
+import com.test.bysiness.dto.CourseData;
 import com.test.bysiness.dto.CourseInfo;
 import com.test.bysiness.entities.CourseEntity;
 import com.test.bysiness.entities.UserEntity;
@@ -10,10 +10,12 @@ import com.test.servicies.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.stream.Stream;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
@@ -23,7 +25,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
 
-    public Course createNewCourse(Course course) {
+    public CourseData createNewCourse(CourseData course) {
         CourseEntity courseEntity = new CourseEntity();
         courseEntity.setCourseName(course.getCourseName());
         courseEntity.setCourseDescription(course.getCourseDescription());
@@ -32,7 +34,7 @@ public class CourseServiceImpl implements CourseService {
         return CourseTransformRules.courseEntityToCourse.apply(courseEntity);
     }
 
-    public Course getCourseDTO(Long id) {
+    public CourseData getCourseDTO(Long id) {
         CourseEntity courseEntity = courseRepository.findOne(id);
         if (courseEntity == null) return null;
         return CourseTransformRules.courseEntityToCourse.apply(courseEntity);

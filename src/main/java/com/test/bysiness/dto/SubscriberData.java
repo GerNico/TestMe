@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-public class Subscriber {
+public class SubscriberData {
     private long id;
     private String login;
     private String email;
     private List<Roles> roles;
-    private List<Subscription> subscriptions;
     private Set<Long> coursesId;
 }

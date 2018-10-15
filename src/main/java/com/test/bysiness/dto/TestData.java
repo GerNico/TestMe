@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class Test {
+public class TestData {
     private long id;
     private String testDescription;
-    private List<Question> questions = new ArrayList<>();
+    private List<QuestionData> questions = new ArrayList<>();
 }

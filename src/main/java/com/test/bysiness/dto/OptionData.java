@@ -3,7 +3,7 @@ package com.test.bysiness.dto;
 import lombok.Data;
 
 @Data
-public class Option {
+public class OptionData {
     private long id;
     private String text;
     private boolean isCorrect;

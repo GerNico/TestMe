@@ -1,6 +1,6 @@
 package com.test.servicies.impl;
 
-import com.test.bysiness.dto.Question;
+import com.test.bysiness.dto.QuestionData;
 import com.test.bysiness.entities.QuestionEntity;
 import com.test.bysiness.functions.QuestionTransformRules;
 import com.test.repositories.QuestionRepository;
@@ -8,7 +8,10 @@ import com.test.servicies.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
@@ -18,7 +21,7 @@ public class QuestionServiceImpl implements QuestionService {
         return questionRepository.save(questionToPersist);
     }
 
-    public Question saveFromDTO(Question question) {
+    public QuestionData saveFromDTO(QuestionData question) {
         return QuestionTransformRules.questionEntityToQuestion.apply(
                 questionRepository.save(
                         QuestionTransformRules.questionToQuestionEntity.apply(question)
@@ -30,7 +33,7 @@ public class QuestionServiceImpl implements QuestionService {
         return questionRepository.findOne(id);
     }
 
-    public Question getDTO(Long id) {
+    public QuestionData getDTO(Long id) {
         QuestionEntity questionEntity= questionRepository.findOne(id);
         return QuestionTransformRules.questionEntityToQuestion.apply(questionEntity);
     }

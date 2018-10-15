@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class Answer {
+public class AnswerData {
     Long answerId;
     Long questionId;
     Long passedTestId;

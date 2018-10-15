@@ -30,7 +30,7 @@ public class CourseProgressEntity {
             mappedBy = "courseProgress", orphanRemoval = true)
     private List<PassedTestEntity> passedTests;
 
-    public void addOption(PassedTestEntity test) {
+    public void addPassedTest(PassedTestEntity test) {
         passedTests.add(test);
         test.setCourseProgress(this);
     }

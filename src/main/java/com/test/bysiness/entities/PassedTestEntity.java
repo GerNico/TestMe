@@ -23,7 +23,7 @@ public class PassedTestEntity {
            mappedBy = "parentPassedTest", orphanRemoval = true)
    private List<AnswerEntity> ansers;
 
-    public void addOption(AnswerEntity answer) {
+    public void addAnswer(AnswerEntity answer) {
         ansers.add(answer);
         answer.setParentPassedTest(this);
     }

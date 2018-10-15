@@ -46,7 +46,18 @@ public class CourseEntity {
         progress.setCourse(this);
     }
 
+    public boolean removeCourseProgressOfUser(Long userId){
+        Optional<CourseProgressEntity> courseForUser = courseProgresses.stream()
+                .filter(progress -> progress.getSuscriber().getId().equals(userId))
+                .findAny();
+        if (!courseForUser.isPresent()) return false;
+        courseForUser.ifPresent(corseProgress->courseProgresses.remove(corseProgress));
+        return true;
+    }
+
     public Set<String> getSubscribers() {
         return subscribedUsers.stream().map(UserEntity::getLogin).collect(Collectors.toSet());
     }
+
+
 }

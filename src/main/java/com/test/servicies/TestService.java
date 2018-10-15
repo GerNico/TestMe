@@ -1,19 +1,19 @@
 package com.test.servicies;
 
-import com.test.bysiness.dto.Question;
-import com.test.bysiness.dto.Test;
+import com.test.bysiness.dto.QuestionData;
+import com.test.bysiness.dto.TestData;
 import com.test.bysiness.entities.TestEntity;
 
 public interface TestService {
     TestEntity save(TestEntity test);
 
-    Test saveFromDTO(Test test);
+    TestData saveFromDTO(TestData test);
 
     TestEntity get(Long id);
 
-    Test addQuestionToTest(Long testId, Question question);
+    TestData addQuestionToTest(Long testId, QuestionData question);
 
-    Test getDTO(Long id);
+    TestData getDTO(Long id);
 
     void delete(Long id);
 }

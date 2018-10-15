@@ -1,6 +1,6 @@
 package com.test.servicies.impl;
 
-import com.test.bysiness.dto.Answer;
+import com.test.bysiness.dto.AnswerData;
 import com.test.bysiness.entities.AnswerEntity;
 import com.test.bysiness.entities.PassedTestEntity;
 import com.test.bysiness.entities.QuestionEntity;
@@ -12,21 +12,23 @@ import com.test.servicies.AnswerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class AnswerServiceImpl implements AnswerService {
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
     private final PassedTestRepository passedTestRepository;
 
-    public Optional<Answer> newAnswer(Answer answer) {
-        QuestionEntity questionEntity = questionRepository.findOne(answer.getQuestionId());
-        PassedTestEntity passedTestEntity = passedTestRepository.findOne(answer.getPassedTestId());
+    public Optional<AnswerData> newAnswer(AnswerData answerData) {
+        QuestionEntity questionEntity = questionRepository.findOne(answerData.getQuestionId());
+        PassedTestEntity passedTestEntity = passedTestRepository.findOne(answerData.getPassedTestId());
         if (questionEntity == null) return Optional.empty();
         if (passedTestEntity == null) return Optional.empty();
-        AnswerEntity answerEntity = QuestionTransformRules.answerToEmptyAnswerEntity.apply(answer);
+        AnswerEntity answerEntity = QuestionTransformRules.answerToEmptyAnswerEntity.apply(answerData);
         answerEntity.setQuestionToAnswer(questionEntity);
         answerEntity.setParentPassedTest(passedTestEntity);
         answerEntity = answerRepository.save(answerEntity);
@@ -37,10 +39,10 @@ public class AnswerServiceImpl implements AnswerService {
         return answerRepository.findOne(answerId);
     }
 
-    public Optional<Answer> updateAnswerEntity(Answer answer) {
-        AnswerEntity answerEntity = answerRepository.findOne(answer.getAnswerId());
-        QuestionEntity questionEntity = questionRepository.findOne(answer.getQuestionId());
-        PassedTestEntity passedTestEntity = passedTestRepository.findOne(answer.getPassedTestId());
+    public Optional<AnswerData> updateAnswerEntity(AnswerData answerData) {
+        AnswerEntity answerEntity = answerRepository.findOne(answerData.getAnswerId());
+        QuestionEntity questionEntity = questionRepository.findOne(answerData.getQuestionId());
+        PassedTestEntity passedTestEntity = passedTestRepository.findOne(answerData.getPassedTestId());
         if (questionEntity == null) return Optional.empty();
         if (passedTestEntity == null) return Optional.empty();
         if (answerEntity == null) return Optional.empty();

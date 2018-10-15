@@ -1,17 +1,17 @@
 package com.test.servicies;
 
-import com.test.bysiness.dto.Answer;
+import com.test.bysiness.dto.AnswerData;
 import com.test.bysiness.entities.AnswerEntity;
 
 import java.util.Optional;
 
 public interface AnswerService {
 
-    Optional<Answer> newAnswer(Answer answer);
+    Optional<AnswerData> newAnswer(AnswerData answerData);
 
     AnswerEntity findAnswer(Long answerId);
 
-    Optional<Answer> updateAnswerEntity(Answer answer);
+    Optional<AnswerData> updateAnswerEntity(AnswerData answerData);
 
     boolean deleteAnswerEntity(Long answerId);
 }

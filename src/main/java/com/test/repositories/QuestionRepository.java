@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface QuestionRepository extends JpaRepository<QuestionEntity, Long> {
 
-    public List<QuestionEntity> findAllByParentTestId(Long id);
+    List<QuestionEntity> findAllByParentTestId(Long id);
 }

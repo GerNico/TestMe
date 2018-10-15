@@ -1,6 +1,7 @@
 package com.test.config;
 
 import com.test.servicies.impl.UserServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,16 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final UserServiceImpl userServiceImpl;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
-
-    @Autowired
-    public SecurityConfiguration(UserServiceImpl userServiceImpl, RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
-        this.userServiceImpl = userServiceImpl;
-        this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
-    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilderilder) throws Exception {
