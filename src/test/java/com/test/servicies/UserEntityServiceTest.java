@@ -2,6 +2,7 @@ package com.test.servicies;
 
 import com.test.bysiness.entities.UserEntity;
 import com.test.bysiness.utilities.Roles;
+import com.test.servicies.impl.UserServiceImpl;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -18,7 +19,7 @@ import static org.junit.Assert.*;
 @WebAppConfiguration
 public class UserEntityServiceTest {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
     private static UserEntity userEntityToPersist;
     private static UserEntity userEntityToFind;
 
@@ -40,25 +41,25 @@ public class UserEntityServiceTest {
         userEntityToPersist.setPasswordHash("SVKANDV-sakdfbna-kdmbdmkbd");
         userEntityToPersist.setRole(Roles.User);
         assertNull(userEntityToPersist.getId());
-        userEntityToPersist = userService.save(userEntityToPersist);
+        userEntityToPersist = userServiceImpl.save(userEntityToPersist);
         assertNotNull(userEntityToPersist.getId());
 
     }
 
     @Test
     public void getSomeUserTest() {
-        userEntityToFind = userService.save(userEntityToFind);
-        UserEntity found = userService.get(userEntityToFind.getId());
+        userEntityToFind = userServiceImpl.save(userEntityToFind);
+        UserEntity found = userServiceImpl.get(userEntityToFind.getId());
         assertEquals(userEntityToFind, found);
     }
 
     @After
     @Test
     public void cleanUp() {
-        if (userEntityToPersist.getId() != null) userService.delete(userEntityToPersist);
-        if (userEntityToFind.getId() != null) userService.delete(userEntityToFind);
-        assertNull(userService == null ? userService.get(userEntityToPersist.getId()) : null);
-        assertNull(userService == null ? userService.get(userEntityToFind.getId()) : null);
+        if (userEntityToPersist.getId() != null) userServiceImpl.delete(userEntityToPersist);
+        if (userEntityToFind.getId() != null) userServiceImpl.delete(userEntityToFind);
+        assertNull(userServiceImpl == null ? userServiceImpl.get(userEntityToPersist.getId()) : null);
+        assertNull(userServiceImpl == null ? userServiceImpl.get(userEntityToFind.getId()) : null);
     }
 
 }

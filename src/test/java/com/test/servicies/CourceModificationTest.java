@@ -5,6 +5,7 @@ import com.test.bysiness.entities.OptionEntity;
 import com.test.bysiness.entities.QuestionEntity;
 import com.test.bysiness.entities.TestEntity;
 import com.test.bysiness.utilities.QuestionType;
+import com.test.servicies.impl.CourseServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ import java.util.stream.Stream;
 @WebAppConfiguration
 public class CourceModificationTest {
     @Autowired
-    private CourseService courseService;
+    private CourseServiceImpl courseServiceImpl;
 
     @Test
     public void persistingTest() {
@@ -43,7 +44,7 @@ public class CourceModificationTest {
         option3.setText("Rogue and swindler");
         OptionEntity option4 = new OptionEntity();
         option4.setText("One among Midleearth creators");
-        option4.setIsCorrect(true);
+        option4.setCorrect(true);
 
         Stream.of(option1, option2, option3, option4).forEach(questionToPersist::addOption);
 
@@ -55,7 +56,7 @@ public class CourceModificationTest {
 
         Stream.of(questionToPersist, questionToPersist2).forEach(testToPersist::addQuestion);
         courseOfFantasy.addTest(testToPersist);
-        courseOfFantasy = courseService.save(courseOfFantasy);
-        courseService.delete(courseOfFantasy.getId());
+        courseOfFantasy = courseServiceImpl.save(courseOfFantasy);
+        courseServiceImpl.delete(courseOfFantasy.getId());
     }
 }

@@ -16,8 +16,10 @@ public class AnswerEntity {
     @Column(name = "ANSWER_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long answerId;
-    @Column(name = "IS_ANSWERED")
-    private boolean isAnswered;
+    @ManyToOne
+    @JoinColumn(name = "Question_id")
+    @JsonIgnore
+    private QuestionEntity questionToAnswer;
     @Column(name = "IS_CORRECT")
     private boolean isCorrect;
     @Column(name = "GIVEN_ANSWER")

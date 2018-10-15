@@ -27,11 +27,11 @@ public class CourseProgressEntity {
     @JsonIgnore
     private UserEntity suscriber;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
-            mappedBy = "parentProgressCourse", orphanRemoval = true)
+            mappedBy = "courseProgress", orphanRemoval = true)
     private List<PassedTestEntity> passedTests;
 
     public void addOption(PassedTestEntity test) {
         passedTests.add(test);
-        test.setParentProgressCourse(this);
+        test.setCourseProgress(this);
     }
 }

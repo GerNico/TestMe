@@ -8,12 +8,13 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Email;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "USERS")
-@EqualsAndHashCode(exclude = {"id","subscribedCourses"})
+@EqualsAndHashCode(exclude = {"id", "subscribedCourses"})
 @NoArgsConstructor
 @Getter
 @Setter
@@ -43,5 +44,10 @@ public class UserEntity {
     public void subscribe(CourseEntity course) {
         subscribedCourses.add(course);
         course.getSubscribedUsers().add(this);
+        CourseProgressEntity courseStatus = new CourseProgressEntity();
+        courseStatus.setPassedTests(new ArrayList<>());
+        courseStatus.setSuscriber(this);
+        course.addCourseProgress(courseStatus);
+        course.getCourseProgresses().add(courseStatus);
     }
 }

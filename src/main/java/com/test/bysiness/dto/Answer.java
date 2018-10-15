@@ -8,8 +8,8 @@ import java.util.List;
 public class Answer {
     Long answerId;
     Long questionId;
-    boolean isAnswered;
+    Long passedTestId;
     boolean isCorrect;
-    List<Integer> selectedOptions;
+    List<Long> selectedOptions;
     String givenAnswer;
 }

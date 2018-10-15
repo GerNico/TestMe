@@ -9,7 +9,7 @@ import com.test.bysiness.entities.TestEntity;
 import com.test.bysiness.functions.QuestionTransformRules;
 import com.test.bysiness.functions.TestTransformRules;
 import com.test.bysiness.utilities.Messages;
-import com.test.servicies.CourseService;
+import com.test.servicies.impl.CourseServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,43 +27,43 @@ import static com.test.bysiness.utilities.Messages.TEST_NOT_EXIST;
 @RequiredArgsConstructor
 public class CourseController {
 
-    private final CourseService courseService;
+    private final CourseServiceImpl courseServiceImpl;
 
     @RequestMapping(value = "rest/courses", method = RequestMethod.POST)
     public ResponseEntity<Course> createCourse(@RequestBody Course courseFromRequest) {
-        Course course = courseService.createNewCourse(courseFromRequest);
+        Course course = courseServiceImpl.createNewCourse(courseFromRequest);
         return new ResponseEntity<>(course, HttpStatus.OK);
     }
 
     @RequestMapping(value = "rest/courses", method = RequestMethod.GET)
     public ResponseEntity<List<CourseInfo>> getInfoAboutAllCourses() {
-        return new ResponseEntity<>(courseService.getAllCoursesInfo().collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(courseServiceImpl.getAllCoursesInfo().collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @RequestMapping(value = "rest/course/{id}", method = RequestMethod.GET)
     public ResponseEntity<Course> findCourse(@PathVariable Long id) {
-        Course course = courseService.getCourseDTO(id);
+        Course course = courseServiceImpl.getCourseDTO(id);
         if (course == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(course, HttpStatus.OK);
     }
 
     @RequestMapping(value = "rest/course/{id}/tests", method = RequestMethod.POST)
     public ResponseEntity<Messages> createTestForCourse(@PathVariable Long id, @RequestBody Test test) {
-        CourseEntity courseEntity = courseService.get(id);
+        CourseEntity courseEntity = courseServiceImpl.get(id);
         if (courseEntity == null) return new ResponseEntity<>(Messages.COURSE_DOES_NOT_EXIST,HttpStatus.NOT_FOUND);
         courseEntity.addTest(TestTransformRules.testToTestEntity.apply(test));
-        courseService.save(courseEntity);
+        courseServiceImpl.save(courseEntity);
         return new ResponseEntity<>(TEST_ADDED,HttpStatus.OK);
     }
 
     @RequestMapping(value = "rest/course/{courseId}/test/{testId}/questions", method = RequestMethod.POST)
     public ResponseEntity<Messages> createQuestionInTestInCourse(@PathVariable Long courseId, @PathVariable Long testId, @RequestBody Question question) {
-        CourseEntity courseEntity = courseService.get(courseId);
+        CourseEntity courseEntity = courseServiceImpl.get(courseId);
         if (courseEntity == null) return new ResponseEntity<>(COURSE_DOES_NOT_EXIST,HttpStatus.BAD_REQUEST);
         Optional<TestEntity> optionalTest = courseEntity.getTests().stream().filter(test -> test.getId().equals(testId)).findAny();
         if (!optionalTest.isPresent()) return new ResponseEntity<>(TEST_NOT_EXIST,HttpStatus.BAD_REQUEST);
         optionalTest.get().addQuestion(QuestionTransformRules.questionToQuestionEntity.apply(question));
-        courseService.save(courseEntity);
+        courseServiceImpl.save(courseEntity);
         return new ResponseEntity<>(TEST_ADDED,HttpStatus.OK);
     }
 }

@@ -3,6 +3,8 @@ package com.test.servicies;
 import com.test.bysiness.entities.*;
 import com.test.bysiness.utilities.QuestionType;
 import com.test.bysiness.utilities.Roles;
+import com.test.servicies.impl.CourseServiceImpl;
+import com.test.servicies.impl.UserServiceImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,18 +21,36 @@ import static org.junit.Assert.*;
 @WebAppConfiguration
 public class SubscriptionTest {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
     @Autowired
-    private CourseService courseService;
+    private CourseServiceImpl courseServiceImpl;
 
     private static UserEntity userToSubscribe = new UserEntity();
     private static UserEntity userToUnSubscribe = new UserEntity();
 
     @Test
     public void subscribeUser() {
-        CourseEntity courseWithSubscribers = courseTolkien();
+        CourseEntity courseWithSubscribers = courseToLink();
 
+        buildUserData();
+        userToSubscribe = userServiceImpl.save(userToSubscribe);
+        userToUnSubscribe = userServiceImpl.save(userToUnSubscribe);
 
+        userToSubscribe.subscribe(courseWithSubscribers);
+
+        userToUnSubscribe.subscribe(courseWithSubscribers);
+
+        courseWithSubscribers = courseServiceImpl.save(courseWithSubscribers);
+
+        assertNotNull(userToSubscribe.getId());
+        assertNotNull(userToUnSubscribe.getId());
+        assertNotNull(courseWithSubscribers.getId());
+        userServiceImpl.delete(userToSubscribe.getId());
+        userServiceImpl.delete(userToUnSubscribe.getId());
+        courseServiceImpl.delete(courseWithSubscribers.getId());
+    }
+
+    private void buildUserData() {
         userToSubscribe.setEmail("first_user@some.com");
         userToSubscribe.setLogin("first_user");
         userToSubscribe.setPasswordHash("vkjsdhvgkjhsd-vfasmlvkj-1521");
@@ -40,24 +60,9 @@ public class SubscriptionTest {
         userToUnSubscribe.setLogin("second_user");
         userToUnSubscribe.setPasswordHash("hasggafkj-mvklcml-1567");
         userToUnSubscribe.setRole(Roles.Admin);
-        userToSubscribe = userService.save(userToSubscribe);
-        userToUnSubscribe = userService.save(userToUnSubscribe);
-
-        userToSubscribe.subscribe(courseWithSubscribers);
-
-        userToUnSubscribe.subscribe(courseWithSubscribers);
-
-        courseWithSubscribers = courseService.save(courseWithSubscribers);
-
-        assertNotNull(userToSubscribe.getId());
-        assertNotNull(userToUnSubscribe.getId());
-        assertNotNull(courseWithSubscribers.getId());
-        userService.delete(userToSubscribe.getId());
-        userService.delete(userToUnSubscribe.getId());
-        courseService.delete(courseWithSubscribers.getId());
     }
 
-    private CourseEntity courseTolkien() {
+    private CourseEntity courseToLink() {
         CourseEntity courseOfFantasy = new CourseEntity();
         courseOfFantasy.setCourseDescription("just classic, no anime");
 
@@ -77,7 +82,7 @@ public class SubscriptionTest {
         option3.setText("Rogue and swindler");
         OptionEntity option4 = new OptionEntity();
         option4.setText("One among Midleearth creators");
-        option4.setIsCorrect(true);
+        option4.setCorrect(true);
 
         Stream.of(option1, option2, option3, option4).forEach(questionToPersist::addOption);
 

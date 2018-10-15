@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class PassedTest {
-    Long passedTestEntity;
+class PassedTest {
+    Long passedTestId;
     Long testId;
     List<Answer> answers;
     LocalDateTime startDate;

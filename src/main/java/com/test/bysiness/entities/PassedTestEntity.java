@@ -35,5 +35,5 @@ public class PassedTestEntity {
     @ManyToOne
     @JoinColumn(name = "COURSE_PROGRESS_ID")
     @JsonIgnore
-    private CourseProgressEntity parentProgressCourse;
+    private CourseProgressEntity courseProgress;
 }

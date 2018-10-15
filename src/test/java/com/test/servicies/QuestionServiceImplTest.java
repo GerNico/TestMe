@@ -3,6 +3,7 @@ package com.test.servicies;
 import com.test.bysiness.entities.OptionEntity;
 import com.test.bysiness.entities.QuestionEntity;
 import com.test.bysiness.utilities.QuestionType;
+import com.test.servicies.impl.QuestionServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,10 +20,10 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration
-public class QuestionServiceTest {
+public class QuestionServiceImplTest {
     private QuestionEntity questionToPersist;
     @Autowired
-    private QuestionService questionService;
+    private QuestionServiceImpl questionServiceImpl;
 
     @Before
     public void init() {
@@ -42,21 +43,21 @@ public class QuestionServiceTest {
         option3.setText("Rogue and swindler");
         OptionEntity option4 = new OptionEntity();
         option4.setText("One among Midleearth creators");
-        option4.setIsCorrect(true);
+        option4.setCorrect(true);
 
         Stream.of(option1, option2, option3, option4).forEach(questionToPersist::addOption);
 
-        questionToPersist = questionService.save(questionToPersist);
+        questionToPersist = questionServiceImpl.save(questionToPersist);
         assertNotNull(questionToPersist.getId());
         assertNull(questionToPersist.getAnswerForNoOptions());
         assertNotNull(questionToPersist.getQuestion());
         Set<OptionEntity> persistedOptions = questionToPersist.getOptions();
         long numberOfOptions = persistedOptions.size();
         assertEquals(4, numberOfOptions);
-        long numberOfCorrectOptions = persistedOptions.stream().filter(OptionEntity::getIsCorrect).count();
+        long numberOfCorrectOptions = persistedOptions.stream().filter(OptionEntity::isCorrect).count();
         assertEquals(1, numberOfCorrectOptions);
         long numberOfParentQuestions = persistedOptions.stream().map(OptionEntity::getParentQuestion).distinct().count();
         assertEquals(1,numberOfParentQuestions);
-        questionService.delete(questionToPersist.getId());
+        questionServiceImpl.delete(questionToPersist.getId());
     }
 }

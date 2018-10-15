@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity(name = "COURSES")
-@EqualsAndHashCode(exclude = {"id","subscribedUsers"})
+@EqualsAndHashCode(exclude = {"id", "subscribedUsers", "courseProgresses"})
 @Data
 public class CourseEntity {
     @Id
@@ -30,10 +30,23 @@ public class CourseEntity {
         tests.add(test);
         test.setParentCourse(this);
     }
+
     @ManyToMany(mappedBy = "subscribedCourses")
     Set<UserEntity> subscribedUsers = new HashSet<>();
 
-    public Set<String> getSubscribers(){
+    @Setter(value = AccessLevel.PRIVATE)
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "course")
+    List<CourseProgressEntity> courseProgresses = new ArrayList<>();
+
+    void addCourseProgress(CourseProgressEntity progress) {
+        courseProgresses.add(progress);
+        progress.setCourse(this);
+    }
+
+    public Set<String> getSubscribers() {
         return subscribedUsers.stream().map(UserEntity::getLogin).collect(Collectors.toSet());
     }
 }

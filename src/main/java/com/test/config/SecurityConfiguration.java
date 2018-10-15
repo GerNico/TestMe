@@ -1,6 +1,6 @@
 package com.test.config;
 
-import com.test.servicies.UserService;
+import com.test.servicies.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,19 +14,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Autowired
-    public SecurityConfiguration(UserService userService, RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
-        this.userService = userService;
+    public SecurityConfiguration(UserServiceImpl userServiceImpl, RestAuthenticationEntryPoint restAuthenticationEntryPoint) {
+        this.userServiceImpl = userServiceImpl;
         this.restAuthenticationEntryPoint = restAuthenticationEntryPoint;
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilderilder) throws Exception {
         authenticationManagerBuilderilder
-                .userDetailsService(userService)
+                .userDetailsService(userServiceImpl)
                 .passwordEncoder(new BCryptPasswordEncoder());
     }
 
