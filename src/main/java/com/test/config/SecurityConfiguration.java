@@ -1,6 +1,6 @@
 package com.test.config;
 
-import com.test.servicies.impl.UserServiceImpl;
+import com.test.servicies.impl.SubscriberServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @RequiredArgsConstructor
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private final UserServiceImpl userServiceImpl;
+    private final SubscriberServiceImpl userServiceImpl;
     private final RestAuthenticationEntryPoint restAuthenticationEntryPoint;
 
     @Autowired

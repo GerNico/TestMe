@@ -1,6 +1,6 @@
 package com.test.repositories;
 
-import com.test.bysiness.entities.QuestionEntity;
+import com.test.bysiness.creation.entities.QuestionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
