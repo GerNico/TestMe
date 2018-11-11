@@ -24,7 +24,7 @@ public class PassedTestEntity {
     private LocalDateTime passingDate;
 
     @Column(name = "Passing_mode")
-    private String lastChangeDate;
+    private LocalDateTime lastChangeDate;
 
    @Column(name = "PASSING_STATUS")
    @Enumerated

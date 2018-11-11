@@ -5,11 +5,12 @@ import com.test.bysiness.creation.entities.TestEntity;
 import com.test.bysiness.suscribers.dto.SubscriberData;
 import com.test.bysiness.suscribers.entities.UserEntity;
 import com.test.bysiness.usage.entities.CourseProgressEntity;
+import com.test.bysiness.usage.entities.PassedTestEntity;
 import com.test.functions.UserTransformRules;
 import com.test.repositories.CourseRepository;
 import com.test.repositories.TestRepository;
 import com.test.repositories.UserRepository;
-import com.test.servicies.SuscriberService;
+import com.test.servicies.SubscriberService;
 import com.test.utilities.Roles;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,12 +23,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class SubscriberServiceImpl implements SuscriberService, UserDetailsService {
+public class SubscriberServiceImpl implements SubscriberService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
@@ -66,6 +68,15 @@ public class SubscriberServiceImpl implements SuscriberService, UserDetailsServi
     }
 
     @Override
+    public Optional<SubscriberData> findSubscriberByEmail(String email) {
+        UserEntity userByLogin = userRepository.findByEmail(email);
+        if (userByLogin == null) {
+            return Optional.empty();
+        }
+        return Optional.of(UserTransformRules.userEntityToSubscriber.apply(userByLogin));
+    }
+
+    @Override
     public Optional<SubscriberData> findSubscriber(Long id) {
         UserEntity userById = userRepository.findOne(id);
         if (userById == null) {
@@ -75,9 +86,13 @@ public class SubscriberServiceImpl implements SuscriberService, UserDetailsServi
     }
 
     @Override
-    public void delete(Long id) {
+    public boolean delete(Long id, String password) {
         UserEntity userById = userRepository.findOne(id);
-        if (userById != null) userRepository.delete(userById);
+        if (userById != null && encoder.matches(password, userById.getPasswordHash())) {
+            userRepository.delete(userById);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -109,18 +124,32 @@ public class SubscriberServiceImpl implements SuscriberService, UserDetailsServi
     }
 
     @Override
-    public boolean startNewTest(String login, Long courseId, Long testId) {
+    public boolean startNewTest(String login, Long testId) {
         TestEntity test = testRepository.findOne(testId);
         if (test == null) return false;
+        CourseEntity course = test.getParentCourse();
+        if (course == null) return false;
         UserEntity user = userRepository.findByLogin(login);
         if (user == null) return false;
-        return false;//TODO: finish
+        Optional<CourseProgressEntity> requiredSubscription = user.getSubscribedCourses()
+                .stream()
+                .filter(subscription -> subscription.getCourse().getId().equals(course.getId()))
+                .findAny();
+        if (!requiredSubscription.isPresent()) return false;
+        CourseProgressEntity courseProgress = requiredSubscription.get();
+        Optional<PassedTestEntity> testIfExists = courseProgress.getPassedTests()
+                .stream()
+                .filter(passedTest -> passedTest.getBasedTest().getId().equals(testId))
+                .findAny();
+        if (testIfExists.isPresent()) return true;
+        PassedTestEntity passedTestEntity = new PassedTestEntity();
+        passedTestEntity.setPassingDate(LocalDateTime.now());
+        passedTestEntity.setLastChangeDate(LocalDateTime.now());
+        passedTestEntity.setBasedTest(test);
+        requiredSubscription.ifPresent(subscription -> subscription.addPassedTest(passedTestEntity));
+        return true;
     }
 
-    @Override
-    public boolean answerSomeQuestion(String login, Long questionId) {
-        return false;//TODO: finish
-    }
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
