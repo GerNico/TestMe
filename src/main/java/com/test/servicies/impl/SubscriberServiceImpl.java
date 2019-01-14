@@ -13,8 +13,10 @@ import com.test.repositories.UserRepository;
 import com.test.servicies.SubscriberService;
 import com.test.utilities.Roles;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,6 +28,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static com.test.functions.UserTransformRules.userEntityToSubscriber;
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -43,7 +46,7 @@ public class SubscriberServiceImpl implements SubscriberService, UserDetailsServ
         UserEntity newUserEntity = UserTransformRules.subscriberToNewEntity.apply(subscriber);
         newUserEntity.setPasswordHash(encoder.encode(password));
         newUserEntity = userRepository.save(newUserEntity);
-        return Optional.ofNullable(UserTransformRules.userEntityToSubscriber.apply(newUserEntity));
+        return Optional.ofNullable(userEntityToSubscriber.apply(newUserEntity));
     }
 
     @Override
@@ -64,7 +67,7 @@ public class SubscriberServiceImpl implements SubscriberService, UserDetailsServ
         if (userByLogin == null) {
             return Optional.empty();
         }
-        return Optional.of(UserTransformRules.userEntityToSubscriber.apply(userByLogin));
+        return Optional.of(userEntityToSubscriber.apply(userByLogin));
     }
 
     @Override
@@ -73,7 +76,7 @@ public class SubscriberServiceImpl implements SubscriberService, UserDetailsServ
         if (userByLogin == null) {
             return Optional.empty();
         }
-        return Optional.of(UserTransformRules.userEntityToSubscriber.apply(userByLogin));
+        return Optional.of(userEntityToSubscriber.apply(userByLogin));
     }
 
     @Override
@@ -82,7 +85,7 @@ public class SubscriberServiceImpl implements SubscriberService, UserDetailsServ
         if (userById == null) {
             return Optional.empty();
         }
-        return Optional.of(UserTransformRules.userEntityToSubscriber.apply(userById));
+        return Optional.of(userEntityToSubscriber.apply(userById));
     }
 
     @Override
@@ -166,5 +169,17 @@ public class SubscriberServiceImpl implements SubscriberService, UserDetailsServ
                     .accountLocked(true)
                     .disabled(true).build();
         }
+    }
+
+    @Override
+    public boolean hasAuthority(GrantedAuthority authority) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getAuthorities().contains(authority);
+    }
+
+    @Override
+    public SubscriberData getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return userEntityToSubscriber.apply(userRepository.findByLogin(auth.getName()));
     }
 }

@@ -3,6 +3,7 @@ package com.test.servicies;
 import com.test.bysiness.suscribers.dto.SubscriberData;
 import com.test.bysiness.usage.entities.CourseProgressEntity;
 import com.test.utilities.Roles;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Optional;
 import java.util.Set;
@@ -26,4 +27,8 @@ public interface SubscriberService {
     boolean subscribeUserOnToCourse(String login, Long courseId);
 
     boolean startNewTest(String login, Long testId);
+
+    boolean hasAuthority(GrantedAuthority authority);
+
+    SubscriberData getCurrentUser();
 }

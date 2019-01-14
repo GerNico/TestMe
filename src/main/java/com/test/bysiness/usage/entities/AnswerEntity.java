@@ -24,6 +24,9 @@ public class AnswerEntity {
     @Column(name = "GIVEN_ANSWER")
     private String givenAnswer;
 
+    @Column(name = "IS_JSON")
+    private boolean isAnswerJson;
+
     @ManyToOne
     @JoinColumn(name = "QUESTION_ID")
     @JsonIgnore

@@ -16,7 +16,7 @@ public class TopicEntity {
     @Id
     private Long id;
     @Column(name = "TOPIC_NAME")
-    private String description;
+    private String name;
 
     @Setter(value = AccessLevel.PRIVATE)
     @OneToMany(fetch = FetchType.LAZY,
